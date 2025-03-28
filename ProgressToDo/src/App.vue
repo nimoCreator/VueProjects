@@ -1,0 +1,164 @@
+<template>
+  <!-- <div class="cloud">
+    cloud
+  </div> -->
+  <div class="gridPanel">
+    <toDoList
+      v-for="(e, index) in todos"
+      :key="index"
+      v-model="todos[index]"
+      @delete="deleteToDoList(index)"
+    />
+    <button @click="addTodo" class="addTodo">
+      <plusIcon />
+    </button>
+  </div>
+  <!-- <div class="mainButtons">
+    buttons
+  </div> -->
+</template>
+
+<script>
+import toDoList from "@/assets/components/toDoList.vue";
+import plusIcon from "@/assets/svg/plusIcon.vue";
+
+export default {
+  name: "App",
+  components: {
+    toDoList,
+    plusIcon,
+  },
+  data() {
+    return {
+      todos: [],
+    };
+  },
+  methods: {
+    addTodo() {
+      this.todos.push({
+        type: "list",
+        created: new Date(),
+        modified: new Date(),
+        emoji: "📝",
+        name: "",
+        todos: [],
+        done: 0,
+        weight: 1,
+        progressBinary: false,
+        progressVisable: false,
+        countdownVisable: false,
+        dateStart: Date.now(),
+        dateEnd: Date.now(),
+
+        cloudListName: "",
+        cloudLists: [],
+      });
+      this.updateLocalStorage();
+    },
+    updateLocalStorage() {
+      localStorage.setItem("todos", JSON.stringify(this.todos));
+    },
+    loadLocalStorage() {
+      this.todos = JSON.parse(localStorage.getItem("todos")) || [];
+    },
+    deleteToDoList(index) {
+      this.todos.splice(index, 1);
+      this.updateLocalStorage();
+    },
+    clearLocalStorage() {
+      if (confirm("Are you sure you want to delete all your todos?")) {
+        localStorage.removeItem("todos");
+        this.todos = [];
+      }
+    },
+  },
+  created() {
+    this.loadLocalStorage();
+  },
+  watch: {
+    todos: {
+      handler() {
+        this.updateLocalStorage();
+      },
+      deep: true,
+    },
+  },
+};
+</script>
+
+
+<style>
+@import url("@/assets/css/base.css");
+
+.mainButtons {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+
+  display: flex;
+  gap: 1rem;
+  justify-content: stretch;
+  align-items: center;
+
+  width: min-content;
+  padding: 0.5rem;
+  margin-left: auto;
+
+  color: #7c8187;
+  background-color: #1e1f24;
+  border: 1px solid #3c3e43;
+  border-radius: 0.5rem;
+}
+.cloud {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  width: min-content;
+  padding: 0.5rem;
+
+  color: #7c8187;
+  background-color: #1e1f24;
+  border: 1px solid #3c3e43;
+  border-radius: 0.5rem;
+
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+.cloud > * {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: stretch;
+}
+.cloud input {
+  padding: 0.5rem;
+  color: #7c8187;
+  background-color: transparent;
+  border: 1px solid #3c3e43;
+  border-radius: 0.5rem;
+}
+
+.addTodo {
+  padding: 0.5rem;
+
+  color: #3c3e43;
+  background: none;
+  border: 0.125rem dashed #3c3e43;
+  border-radius: 0.5rem;
+
+  cursor: pointer;
+  user-select: none;
+
+  transition: 0.2s;
+  box-shadow: none;
+}
+.addTodo:hover {
+  background: none;
+  color: #7c8187;
+  border: 0.12reem dashed #7c8187;
+}
+</style>
