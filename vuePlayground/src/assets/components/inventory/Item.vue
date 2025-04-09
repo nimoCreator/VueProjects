@@ -14,9 +14,8 @@
         <span v-if="items[item.id].name" class="itemName"> 
             
             <div class="rarityIcon" 
-                v-if="item.quality && qualities[item.quality]" 
-                v-html="decodeSVG(qualities[item.quality].icon)">
-                
+                v-if="item.quality && qualities[item.quality]">
+                <component :is="qualities[item.quality].icon" />
             </div>
 
             {{items[item.id].name}} 
@@ -48,10 +47,6 @@ export default {
         }
     },
     methods: {
-        decodeSVG(data) {
-            const svgStart = data.indexOf(',') + 1; // Find the data start
-            return decodeURIComponent(data.slice(svgStart)); // Decode the SVG content
-        },
     },
 }
 </script>
@@ -160,7 +155,7 @@ export default {
     width: 1.5rem;
     margin-right: 0.25rem;
 
-    fill: var(--rarity-color);
+    color: var(--rarity-color);
 }
 .item .amount {
     position: absolute;
@@ -208,12 +203,12 @@ export default {
     perspective: 10rem;
 }
 .item .itemImg {
-    transition: transform 0.5s 0.25s ease-out;
+    transition: transform 0.5s ease-out;
 }
 .item:hover .itemImg {
     transform-style: preserve-3d;
-    transform: rotateX(5deg) rotateY(-10deg) rotateZ(15deg);
-    transition: transform 0.125s 0.125s ease-out;
+    transform: rotateX(-5deg) rotateY(-10deg) rotateZ(5deg) scale(1.05);
+    transition: transform 0.125s ease-out;
 }
 
 .item .frame:before {

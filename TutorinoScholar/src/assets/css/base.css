@@ -1,0 +1,27 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #f9f7fc;
+  color: #1f1f1f;
+}
+
+.tutorino-app {
+  padding: 1rem;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  height: 40px;
+}
+
+.menu a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #6f42c1;
+  font-weight: bold;
+}

@@ -52,14 +52,15 @@
             <div 
                 v-for="i in qualities.length" 
                 :key="i"  
-                >
+                :style="{'--rarity-color': qualities[i-1].color, 'color': qualities[i-1].color }">
                 <div 
                     class="rarityIcon" 
-                    v-if="qualities[i-1]" 
-                    v-html="decodeSVG(qualities[i-1].icon)">
+                    v-if="qualities[i-1]"
+                    :style="{'--rarity-color': qualities[i-1].color, 'color': qualities[i-1].color }">
+                    <component :is="qualities[i-1].icon" />
                 </div>
 
-                {{ qualities[i] ? qualities[i-1].name : "lol"}} 
+                {{ qualities[i-1] ? qualities[i-1].name : "lol"}} 
             </div>
         </div>
     </div>
@@ -99,10 +100,6 @@ export default {
         randomPercent() {
             return Math.random() * 100;
         },
-        decodeSVG(data) {
-            const svgStart = data.indexOf(',') + 1; // Find the data start
-            return decodeURIComponent(data.slice(svgStart)); // Decode the SVG content
-        },
     }
 }
 </script>
@@ -123,6 +120,7 @@ export default {
 .inventoryGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(6rem, 10vw));
+    grid-template-columns: repeat(5, 6rem);
     gap: 4rem;
 
     outline: 0.5rem solid #333;

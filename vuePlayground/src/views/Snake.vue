@@ -5,17 +5,8 @@
             --playAreaWidth: ${playAreaWidth}; 
             --playAreaHeight: ${playAreaHeight}`">
 
-            <!--<div v-for="(cell, cellIndex) in playAreaLinear" 
-                :key="cellIndex" 
-                class="cell" 
-                :style="`--bgColor: #444};   
-                    --x: ${cellIndex%playAreaWidth}; 
-                    --y: ${Math.floor(cellIndex/playAreaWidth )}; `"> -->
-                <!-- {{ cell ? cell.tetrominoIndex+`-`+cell.blockIndex  : cellIndex }} -->
-            <!-- </div> --> 
-
-            <div v-for="(f, i) in food" 
-                :key="i" 
+            <div v-for="(f) in food" 
+                :key="f.x + f.y" 
                 class="food" 
                 :style="`
                     --x: ${f.x}; 
@@ -26,7 +17,7 @@
             <div v-for="(segment, i) in snake.body" 
                 :key="i" 
                 class="segment"
-                :class="{head: i === 0}"
+                :class="{head: i === 0, tail: i === snake.body.length - 1, even: i % 2 === 0, odd: i % 2 !== 0}"
                 :style="`
                     --borderRadius: ${segment.borderRadius};
                     --x: ${segment.x}; 
@@ -49,26 +40,26 @@ export default {
     data() {
         return {
             snakeBorderRadious: "1rem",
-            playAreaWidth: 20,
-            playAreaHeight: 20,
+            playAreaWidth: 3,
+            playAreaHeight: 3,
             playArea: [],
-            snake: {
-                body: [{x: 10, y: 10, borderRadius: `1rem 1rem 1rem 1rem`}],
-                direction: {x: 1, y: 0},
-            },
-            food: [{x: 5, y: 5}],
+            snake: {},
+            food: [{x: 5, y: 5}, {x:6, y:6}, {x:7, y:7}, {x:8, y:8}],
             score: 0,
+            gameLoop: null,
         };
     },
     computed: {
         
     },
     mounted() {
-        this.initPlayArea();
+        this.initGame();
         window.addEventListener('keydown', this.handleKeydown);
+        this.scheduleNextMove();
     },
     beforeUnmount() {
         window.removeEventListener('keydown', this.handleKeydown);
+        clearInterval(this.gameLoop);
     },
     methods: {
         handleKeydown(event) {
@@ -100,53 +91,49 @@ export default {
                     break;
             }
         },
-        initPlayArea() {
-            for (let i = 0; i < this.playAreaHeight; i++) {
-                this.playArea.push([]);
-                for (let j = 0; j < this.playAreaWidth; j++) {
-                    this.playArea[i].push(undefined);
-                }
-            }
+        initGame() {
+            this.score = 0;
+            this.snake = {
+                body: [{x: Math.floor(this.playAreaWidth/2), y: Math.floor(this.playAreaHeight/2), borderRadius: `1rem 1rem 1rem 1rem`}],
+                direction: {x: 0, y: 0},
+            };
+            this.food = []; 
+            this.addFood();
+        },
+        scheduleNextMove() {
+            clearTimeout(this.gameLoop);
+            this.gameLoop = setTimeout(() => {
+                this.afterMove();
+                this.scheduleNextMove();
+            }, 500);
         },
         moveLeft() {
-            this.snake.body.unshift({
-                x: this.snake.body[0].x - 1,
-                y: this.snake.body[0].y,
-                borderRadius: this.snake.body[0].borderRadius
-            });
-            this.snake.body.pop();
-            this.snake.direction = {x: -1, y: 0};
-            this.afterMove();
+            if (this.snake.direction.x !== 1) 
+            { 
+                this.snake.direction = {x: -1, y: 0};
+                this.afterMove();
+            }
         },
         moveRight() {
-            this.snake.body.unshift({
-                x: this.snake.body[0].x + 1,
-                y: this.snake.body[0].y,
-                borderRadius: this.snake.body[0].borderRadius
-            });
-            this.snake.body.pop();
-            this.snake.direction = {x: 1, y: 0};
-            this.afterMove();
+            if (this.snake.direction.x !== -1) 
+            {
+                this.snake.direction = {x: 1, y: 0};
+                this.afterMove();
+            }
         },
         moveUp() {
-            this.snake.body.unshift({
-                x: this.snake.body[0].x,
-                y: this.snake.body[0].y - 1,
-                borderRadius: this.snake.body[0].borderRadius
-            });
-            this.snake.body.pop();
-            this.snake.direction = {x: 0, y: -1};
-            this.afterMove();
+            if (this.snake.direction.y !== 1) 
+            {
+                this.snake.direction = {x: 0, y: -1};
+                this.afterMove();
+            }
         },
         moveDown() {
-            this.snake.body.unshift({
-                x: this.snake.body[0].x,
-                y: this.snake.body[0].y + 1,
-                borderRadius: this.snake.body[0].borderRadius
-            });
-            this.snake.body.pop();
-            this.snake.direction = {x: 0, y: 1};
-            this.afterMove();
+            if (this.snake.direction.y !== -1) 
+            {
+                this.snake.direction = {x: 0, y: 1};
+                this.afterMove();
+            }
         },
         addFood() {
             let newFood = {};
@@ -155,77 +142,145 @@ export default {
                     x: Math.floor(Math.random() * this.playAreaWidth),
                     y: Math.floor(Math.random() * this.playAreaHeight),
                 };
+                console.log("newFood", newFood.x, newFood.y);
+                // check if food is on snake body
+                if(this.snake.body.some(segment => segment.x === newFood.x && segment.y === newFood.y)) {
+                    console.log("food on snake body", newFood.x, newFood.y);
+                    continue;
+                }
+                // check if food is on other food
+                if(this.food.some(f => f.x === newFood.x && f.y === newFood.y)) {
+                    console.log("food on other food", newFood.x, newFood.y);
+                    continue;
+                }
+                break;
             } while (
-                this.snake.body.some(segment => segment.x === newFood.x && segment.y === newFood.y) &&
-                this.food.some(food => food.x === newFood.x && food.y === newFood.y)
+                true
             );
+            this.food.push(newFood);   
+            // change for extra food
+            if( Math.random()*this.food.length < 0.1 ) // chance of extra food = 10%
+            {
+                this.addFood();
+            }
         },
 
         afterMove() {
-            // food
-            if (this.snake.body[0].x === this.food[0].x && this.snake.body[0].y === this.food[0].y) {
-                //delete the eaten food 
+            const tailPos = {x: this.snake.body[this.snake.body.length-1].x, y: this.snake.body[this.snake.body.length-1].y};
 
-                this.snake.body.push({ ...this.snake.body[this.snake.body.length - 1] });
-                this.score++;
-
-                this.addFood();
+            // move body
+            for(let i = this.snake.body.length - 1; 
+                i > 0; i--) {
+                this.snake.body[i].x = this.snake.body[i-1].x;
+                this.snake.body[i].y = this.snake.body[i-1].y;
+                this.snake.body[i].borderRadius = this.snake.body[i-1].borderRadius;
             }
+
+            // move head
+            this.snake.body[0].x += this.snake.direction.x;
+            this.snake.body[0].y += this.snake.direction.y;
+
+            // food
+            for (let i = 0; i < this.food.length; i++) {
+                if (this.snake.body[0].x === this.food[i].x && this.snake.body[0].y === this.food[i].y) {
+                    this.score += 1;
+                    this.snake.body.push({
+                        x: tailPos.x,
+                        y: tailPos.y, 
+                        borderRadius: `1rem 1rem 1rem 1rem`});
+                    this.food.splice(i, 1);
+                    this.addFood();
+                    break;
+                }
+            }
+            
             // loose
             if (this.snake.body[0].x < 0 || this.snake.body[0].x >= this.playAreaWidth || this.snake.body[0].y < 0 || this.snake.body[0].y >= this.playAreaHeight) {
-                this.score = 0;
-                this.snake.body = [{x: 10, y: 10, borderRadius: `1rem 1rem 1rem 1rem`}];
+                this.gameOver();
                 return
             }
 
             // head
             if(this.snake.body.length > 1)
-            if(this.snake.direction.x == 1)
-            {
-                this.snake.body[0].borderRadius = `0 1rem 1rem 0`;
-            }
-            else if(this.snake.direction.x == -1)
-            {
-                this.snake.body[0].borderRadius = `1rem 0 0 1rem`;
-            }
-            else if(this.snake.direction.y == 1)
-            {
-                this.snake.body[0].borderRadius = `0 0 1rem 1rem`;
-            }
-            else if(this.snake.direction.y == -1)
-            {
-                this.snake.body[0].borderRadius = `1rem 1rem 0 0`;
-            }
+                if(this.snake.direction.x == 1)
+                {
+                    this.snake.body[0].borderRadius = `0 1rem 1rem 0`;
+                }
+                else if(this.snake.direction.x == -1)
+                {
+                    this.snake.body[0].borderRadius = `1rem 0 0 1rem`;
+                }
+                else if(this.snake.direction.y == 1)
+                {
+                    this.snake.body[0].borderRadius = `0 0 1rem 1rem`;
+                }
+                else if(this.snake.direction.y == -1)
+                {
+                    this.snake.body[0].borderRadius = `1rem 1rem 0 0`;
+                }
 
             // body
+            if(this.snake.body.length > 2)
+            {
+                // the second segment of a snake should have border radious on corner if turning
+                let dx1 = this.snake.body[1].x - this.snake.body[0].x;
+                let dy1 = this.snake.body[1].y - this.snake.body[0].y;
+                let dx2 = this.snake.body[2].x - this.snake.body[1].x;
+                let dy2 = this.snake.body[2].y - this.snake.body[1].y;
+
+                if (dy1 == 0 && dy2 == 0 || dx1 == 0 && dx2 == 0) {
+                    this.snake.body[1].borderRadius = `0`;
+
+                } else if (dx1 == 1 && dy2 == 1 || dy1 == -1 && dx2 == -1) {
+                    this.snake.body[1].borderRadius = `0 1rem 0 0`;
+                } else if (dx1 == 1 && dy2 == -1 || dy1 == 1 && dx2 == -1) {
+                    this.snake.body[1].borderRadius = `0 0 1rem 0`;
+                } else if (dx1 == -1 && dy2 == -1 || dy1 == 1 && dx2 == 1) {
+                    this.snake.body[1].borderRadius = `0 0 0 1rem`;
+                } else if (dx1 == -1 && dy2 == 1 || dy1 == -1 && dx2 == 1) {
+                    this.snake.body[1].borderRadius = `1rem 0 0 0`;
+
+                } else {
+                    this.snamek.body[1].borderRadius = `100%`;
+                }
+                
+            }
 
 
             // tail
             if(this.snake.body.length > 1)
-            switch( this.snake.body[this.snake.body.length-1].x - this.snake.body[this.snake.body.length-2].x )
             {
-                case 1:
-                    this.snake.body[this.snake.body.length-1].borderRadius = `0 1rem 1rem 0`;
-                    break;
-                case -1:
-                    this.snake.body[this.snake.body.length-1].borderRadius = `1rem 0 0 1rem`;
-                    break;
+                switch( this.snake.body[this.snake.body.length-1].x - this.snake.body[this.snake.body.length-2].x )
+                {
+                    case 1:
+                        this.snake.body[this.snake.body.length-1].borderRadius = `0 1rem 1rem 0`;
+                        break;
+                    case -1:
+                        this.snake.body[this.snake.body.length-1].borderRadius = `1rem 0 0 1rem`;
+                        break;
+                }
+                switch( this.snake.body[this.snake.body.length-1].y - this.snake.body[this.snake.body.length-2].y )
+                {
+                    case 1:
+                        this.snake.body[this.snake.body.length-1].borderRadius = `0 0 1rem 1rem`;
+                        break;
+                    case -1:
+                        this.snake.body[this.snake.body.length-1].borderRadius = `1rem 1rem 0 0`;
+                        break;
+                }
             }
-            switch( this.snake.body[this.snake.body.length-1].y - this.snake.body[this.snake.body.length-2].y )
-            {
-                case 1:
-                    this.snake.body[this.snake.body.length-1].borderRadius = `0 0 1rem 1rem`;
-                    break;
-                case -1:
-                    this.snake.body[this.snake.body.length-1].borderRadius = `1rem 1rem 0 0`;
-                    break;
-            }
+
+            this.scheduleNextMove();
+        },
+        gameOver() {
+            this.score = 0;
+            this.snake.body = [{x: Math.floor(this.playAreaWidth/2), y: Math.floor(this.playAreaHeight/2), borderRadius: `1rem 1rem 1rem 1rem`}],
+            this.snake.direction = {x: 0, y: 0};
+            this.food = [];
+            this.addFood();
         }
     },
     computed: {
-        playAreaLinear() {
-            return this.playArea.flat();
-        }
     },
 };
 </script>
@@ -233,7 +288,7 @@ export default {
 
 #Snake {
     --cellSize: 2.5rem;
-    --gapSize: 0.0625rem;
+    --gapSize: 0px;
 
     display: grid;
     grid-template-columns: auto 10rem;
@@ -256,25 +311,8 @@ export default {
     max-width: 80vh;
     max-width: 80vh;
 }
-.cell, .food, .segment {
+.food, .segment {
     background-color: var(--bgColor, #444);
-    background: 
-        radial-gradient(ellipse at top right, 
-                color-mix(in srgb, var(--bgColor, #444), white 10%),
-                transparent ),
-
-        radial-gradient(ellipse at bottom left, 
-                color-mix(in srgb, var(--bgColor, #444), black 5%),
-                var(--bgColor, #444) 50%);
-
-    border: 0.125rem solid #222;
-    border-radius: 0.125rem;
-    border-color: 
-        color-mix(in srgb, var(--bgColor, #444), white 4%)
-        color-mix(in srgb, var(--bgColor, #444), white 1%)
-        color-mix(in srgb, var(--bgColor, #444), black 4%)
-        color-mix(in srgb, var(--bgColor, #444), black 1%);
-    padding: 0.25rem;
 
     display: flex;
     align-items: center;
@@ -287,33 +325,31 @@ export default {
 
     overflow: visible;
 }
-.cell {
-    --bgColor: #444;
-
-    box-shadow: 0.0625rem 0.0625rem 0.25rem var(--bgColor, #444);
-
-    position: absolute;
-    top: calc(var(--y) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
-    left: calc(var(--x) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
-
-    transition: all 0.125s;
-}
 .segment {
-    --bgColor: #00d26a;
+    --bgColor: #0cc167;
 
     position: absolute;
     top: calc(var(--y) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
     left: calc(var(--x) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
 
-    transition: top 0.125s, left 0.125s;
-
-    box-shadow: 0.0625rem 0.0625rem 0.25rem var(--bgColor, #444);
+    transition: top 0.125s, left 0.125s, border-radius 0.25s;
 
     border-radius: var(--borderRadius, 0);
 }
-.segment.head {
-    --bgColor: #9cd44f;
+
+.segment.even {
+    --bgColor: #0cc167;
 }
+.segment.odd {
+    --bgColor: #00d26a;
+}
+.segment.tail {
+    --bgColor: #0abd72 !important;
+}
+.segment.head {
+    --bgColor: #d8d520 !important;
+}
+
 .food {
     --bgColor: #f8312f00;
     position: absolute;

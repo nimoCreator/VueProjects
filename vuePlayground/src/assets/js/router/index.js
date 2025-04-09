@@ -57,6 +57,11 @@ const router = createRouter({
       path: '/Snake',
       name: 'Snake',
       component: () => import('@/views/Snake.vue'),
+    },
+    {
+      path: '/BinaryGame',
+      name: 'BinaryGame',
+      component: () => import('@/views/BinaryGame.vue'),
     }
 
   ],

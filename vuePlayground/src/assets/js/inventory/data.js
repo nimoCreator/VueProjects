@@ -1,15 +1,15 @@
 import imgStoneSword from '@/assets/img/inventory/items/stoneSword.png';
 import imgBottleOfWater from '@/assets/img/inventory/items/bottleOfWater.png';
 
-import imgBroken from '@/assets/img/inventory/qualities/broken.svg';
-import imgPoor from '@/assets/img/inventory/qualities/poor.svg';
-import imgGood from '@/assets/img/inventory/qualities/good.svg';
-import imgCommon from '@/assets/img/inventory/qualities/common.svg';
-import imgUncommon from '@/assets/img/inventory/qualities/uncommon.svg';
-import imgRare from '@/assets/img/inventory/qualities/rare.svg';
-import imgEpic from '@/assets/img/inventory/qualities/epic.svg';
-import imgLegendary from '@/assets/img/inventory/qualities/legendary.svg';
-import imgMythical from '@/assets/img/inventory/qualities/mythical.svg';
+import imgBroken from '@/assets/img/inventory/qualities/broken.vue';
+import imgPoor from '@/assets/img/inventory/qualities/poor.vue';
+import imgGood from '@/assets/img/inventory/qualities/good.vue';
+import imgCommon from '@/assets/img/inventory/qualities/common.vue';
+import imgUncommon from '@/assets/img/inventory/qualities/uncommon.vue';
+import imgRare from '@/assets/img/inventory/qualities/rare.vue';
+import imgEpic from '@/assets/img/inventory/qualities/epic.vue';
+import imgLegendary from '@/assets/img/inventory/qualities/legendary.vue';
+import imgMythical from '@/assets/img/inventory/qualities/mythical.vue';
 
 
 export const items = {
