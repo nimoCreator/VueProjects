@@ -62,6 +62,22 @@ const router = createRouter({
       path: '/BinaryGame',
       name: 'BinaryGame',
       component: () => import('@/views/BinaryGame.vue'),
+    },
+    {
+      path: '/ThanksBlender.vue',
+      name: 'ThanksBlender',
+      component: () => import('@/views/ThanksBlender.vue'),
+
+    },
+    {
+      path: '/Chat',
+      name: 'Chat',
+      component: () => import('@/views/Chat.vue'),
+    },
+    {
+      path: '/LagoonaRPG',
+      name: 'LagoonaRPG',
+      component: () => import('@/views/LagoonaRPG.vue'),
     }
 
   ],

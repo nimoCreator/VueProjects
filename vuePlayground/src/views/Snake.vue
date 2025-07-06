@@ -5,15 +5,34 @@
             --playAreaWidth: ${playAreaWidth}; 
             --playAreaHeight: ${playAreaHeight}`">
 
-            <div v-for="(f) in food" 
-                :key="f.x + f.y" 
+            <div v-for="(cell, i) in playArea" 
+                :key="`${cell.x}-${cell.y}-${i}`" 
+                class="cell"
+                :style="`
+                    --x: ${cell.x}; 
+                    --y: ${cell.y};`">
+
+                    {{ playArea.char }}
+            </div>
+
+            <div v-for="(f, i) in food" 
+                :key="i"
                 class="food" 
                 :style="`
                     --x: ${f.x}; 
                     --y: ${f.y};`">
                     <span>🍎</span>
             </div>
-            
+        
+            <div v-for="(segment, i) in cornerSegments" 
+                :key="`${segment.x}-${segment.y}-${i}`" 
+                class="segment cornerSegment"
+                :style="`
+                    --borderRadius: ${segment.borderRadius};
+                    --x: ${segment.x}; 
+                    --y: ${segment.y};`">
+            </div>
+
             <div v-for="(segment, i) in snake.body" 
                 :key="i" 
                 class="segment"
@@ -22,6 +41,27 @@
                     --borderRadius: ${segment.borderRadius};
                     --x: ${segment.x}; 
                     --y: ${segment.y};`">
+            </div>
+
+            <div v-for="(p, i) in particles" 
+                :key="i" 
+                class="particle" 
+                :class="p.class"
+                :style="`
+                    --x: ${p.x};
+                    --y: ${p.y};
+                    --dx: ${p.dx};
+                    --dy: ${p.dy};
+                    --rotation: ${p.rotation}deg;
+                    --opacity: ${p.opacity};
+                    --flipped: ${p.flipped};
+                `">
+                <template v-if="p.char === '🍎'">
+                    <img src="@/assets/img/appleCore.png" alt="apple core" style="width: 3rem; height: 3rem; transform: rotate(0deg);">
+                </template>
+                <template v-else>
+                    {{ p.char }}
+                </template>
             </div>
         </div>
         <div id="score">
@@ -40,13 +80,15 @@ export default {
     data() {
         return {
             snakeBorderRadious: "1rem",
-            playAreaWidth: 3,
-            playAreaHeight: 3,
             playArea: [],
             snake: {},
             food: [{x: 5, y: 5}, {x:6, y:6}, {x:7, y:7}, {x:8, y:8}],
             score: 0,
             gameLoop: null,
+            stepDelay: 250,
+            particles: [],
+
+            level: 1,
         };
     },
     computed: {
@@ -105,7 +147,7 @@ export default {
             this.gameLoop = setTimeout(() => {
                 this.afterMove();
                 this.scheduleNextMove();
-            }, 500);
+            }, this.stepDelay);
         },
         moveLeft() {
             if (this.snake.direction.x !== 1) 
@@ -135,36 +177,85 @@ export default {
                 this.afterMove();
             }
         },
+        isThereSpaceForFood() {
+            // check if there is space for food
+            if(this.playAreaWidth * this.playAreaHeight - this.snake.body.length < 1) {
+                return false;
+            }
+            return true;
+        },
+        spaceLeftCounter() {
+            let spaceLeft = this.playAreaWidth * this.playAreaHeight - this.snake.body.length - this.food.length;
+            return spaceLeft;
+        },
         addFood() {
-            let newFood = {};
+            let spaceLeft = this.spaceLeftCounter();
+            if(spaceLeft < 1) {
+                return;
+            }
             do {
-                newFood = {
+                let newFood = {
                     x: Math.floor(Math.random() * this.playAreaWidth),
                     y: Math.floor(Math.random() * this.playAreaHeight),
                 };
-                console.log("newFood", newFood.x, newFood.y);
+
                 // check if food is on snake body
                 if(this.snake.body.some(segment => segment.x === newFood.x && segment.y === newFood.y)) {
                     console.log("food on snake body", newFood.x, newFood.y);
                     continue;
                 }
+
                 // check if food is on other food
                 if(this.food.some(f => f.x === newFood.x && f.y === newFood.y)) {
                     console.log("food on other food", newFood.x, newFood.y);
                     continue;
                 }
-                break;
-            } while (
-                true
-            );
-            this.food.push(newFood);   
-            // change for extra food
-            if( Math.random()*this.food.length < 0.1 ) // chance of extra food = 10%
-            {
-                this.addFood();
-            }
-        },
+                
+                this.food.push(newFood);   
+                spaceLeft--;
+                if(spaceLeft < 1) {
+                    break;
+                }
 
+            } while (
+                // change for extra food
+                Math.random()*this.food.length < 0.1
+            );
+        },
+        foodEaten(x, y) {
+            let amount = Math.floor(Math.random() * 20) + 1;
+
+            for (let i = 0; i < amount; i++) {
+                let distance = (Math.random() * 2 + 1)/2;
+                let angle = Math.random() * 2 * Math.PI;
+                this.particles.push({
+                    x,
+                    y,
+                    dx: Math.cos(angle) * distance,
+                    dy: Math.sin(angle) * distance,
+                    rotation: (1 - 2 * Math.random()) * 360,
+                    opacity: 1,
+                    char: ['🍃', '✨'][Math.floor(Math.random() * 2)],
+                });
+            }
+
+            this.particles.push({
+                x,
+                y,
+                dx: 0,
+                dy: 0,
+                rotation: 0,
+                opacity: 1,
+                char: '🍎',
+                class: 'appleCore',
+                flipped: Math.random() < 0.5 ? 1 : -1,
+            });
+
+            // Remove after animation
+            setTimeout(() => {
+                this.particles.splice(0, amount+1);
+            }, 1000); // match the animation duration
+        },
         afterMove() {
             const tailPos = {x: this.snake.body[this.snake.body.length-1].x, y: this.snake.body[this.snake.body.length-1].y};
 
@@ -183,6 +274,7 @@ export default {
             // food
             for (let i = 0; i < this.food.length; i++) {
                 if (this.snake.body[0].x === this.food[i].x && this.snake.body[0].y === this.food[i].y) {
+                    this.foodEaten(this.food[i].x, this.food[i].y);
                     this.score += 1;
                     this.snake.body.push({
                         x: tailPos.x,
@@ -194,10 +286,18 @@ export default {
                 }
             }
             
-            // loose
+            // loose if hit wall
             if (this.snake.body[0].x < 0 || this.snake.body[0].x >= this.playAreaWidth || this.snake.body[0].y < 0 || this.snake.body[0].y >= this.playAreaHeight) {
                 this.gameOver();
                 return
+            }
+
+            // loose if hit self
+            for (let i = 1; i < this.snake.body.length; i++) {
+                if (this.snake.body[0].x === this.snake.body[i].x && this.snake.body[0].y === this.snake.body[i].y) {
+                    this.gameOver();
+                    return
+                }
             }
 
             // head
@@ -272,15 +372,32 @@ export default {
 
             this.scheduleNextMove();
         },
+        levelUp() {
+
+        },
         gameOver() {
-            this.score = 0;
-            this.snake.body = [{x: Math.floor(this.playAreaWidth/2), y: Math.floor(this.playAreaHeight/2), borderRadius: `1rem 1rem 1rem 1rem`}],
-            this.snake.direction = {x: 0, y: 0};
-            this.food = [];
-            this.addFood();
+            clearTimeout(this.gameLoop);
+            this.gameLoop = null;
+            alert("Game Over! Your score: " + this.score);
+            this.initGame();
         }
     },
     computed: {
+        cornerSegments() {
+            if(!this.snake || !this.snake.body) return [];
+            return this.snake.body.filter((segment, i) => {
+                if (i === 0 || i === this.snake.body.length - 1) return false; // skip head and tail
+                const prevSegment = this.snake.body[i - 1];
+                const nextSegment = this.snake.body[i + 1];
+                return (prevSegment.x !== segment.x && nextSegment.y !== segment.y) || (prevSegment.y !== segment.y && nextSegment.x !== segment.x);
+            });
+        },
+        playAreaWidth() {
+            return this.level * 2 + 3;
+        },
+        playAreaHeight() {
+            return this.level * 2 + 3;
+        },
     },
 };
 </script>
@@ -289,6 +406,8 @@ export default {
 #Snake {
     --cellSize: 2.5rem;
     --gapSize: 0px;
+
+    --transitionSpeed: 0.0625s;
 
     display: grid;
     grid-template-columns: auto 10rem;
@@ -308,7 +427,6 @@ export default {
     padding: var(--gapSize);
     background-color: #333;
 
-    max-width: 80vh;
     max-width: 80vh;
 }
 .food, .segment {
@@ -332,7 +450,7 @@ export default {
     top: calc(var(--y) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
     left: calc(var(--x) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
 
-    transition: top 0.125s, left 0.125s, border-radius 0.25s;
+    transition: all var(--transitionSpeed) ease-in-out;
 
     border-radius: var(--borderRadius, 0);
 }
@@ -348,6 +466,7 @@ export default {
 }
 .segment.head {
     --bgColor: #d8d520 !important;
+    z-index: 10;
 }
 
 .food {
@@ -356,7 +475,7 @@ export default {
     top: calc(var(--y) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
     left: calc(var(--x) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
 
-    transition: top 0.125s, left 0.125s;
+    transition: all 0s;
 
     box-shadow: 0.0625rem 0.0625rem 0.25rem var(--bgColor, #444);
 
@@ -396,5 +515,68 @@ export default {
 
     gap: 0.5rem;
 }
+
+
+
+.particle {
+    position: absolute;
+    top: calc(var(--y) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
+    left: calc(var(--x) * (var(--cellSize) + var(--gapSize)) + var(--gapSize));
+    transform: translate(0, 0);
+    animation: particleMove 0.4s linear forwards;
+    font-size: 1.5rem;
+    pointer-events: none;
+}
+
+@keyframes particleMove {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0;
+    }
+    25% {
+        transform: translate(calc(var(--dx) * 1rem), calc(var(--dy) * 1rem)) rotate(calc( var(--rotation) / 4));
+        opacity: 1;
+    }
+    75% {
+        transform: translate(calc(var(--dx) * 3rem), calc(var(--dy) * 3rem)) rotate(calc( var(--rotation) / 4 * 3));
+        opacity: 1;
+    }
+    100% {
+        transform: translate(calc(var(--dx) * 4rem), calc(var(--dy) * 4rem)) rotate(var(--rotation));
+        opacity: 0;
+    }
+}
+
+
+.particle.appleCore {
+    animation: appleCoreMove 0.8s ease-out forwards;
+}
+@keyframes appleCoreMove {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    25% {
+        transform: translate( 
+            calc( var(--flipped) * 1.5rem), 
+            -3rem
+            ) 
+            rotate(
+                calc( var(--flipped) * 30deg)
+                );
+        opacity: 1;
+    }
+    100% {
+        transform: translate( 
+            calc( var(--flipped) * 3rem), 
+            9rem
+            ) 
+            rotate(
+                calc( var(--flipped) * 120deg)
+                );
+        opacity: 0;
+    }
+}
+
 
 </style>

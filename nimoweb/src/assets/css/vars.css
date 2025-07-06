@@ -1,0 +1,85 @@
+:root {
+    --red: #f14725;
+    --orange: #fac712;
+    --yellow: #fef445;
+    --lime: #cee741;
+    --green: #8ed14f;
+    --teal: #0fa689;
+    --cyan: #14cdd4;
+    --blue: #00aaff;
+    --indigo: #414bb2;
+    --violet: #652cb3;
+    --purple: #9411ac;
+    --pink: #da0063;
+
+    --accent: #00aaff;
+    --accentLight: #50c5ff;
+    --accentDark: #0088cc;
+
+    --black: #000000;
+
+    --dark: #181818;
+    --darkLight: #222222;
+    --darkDark: #282828;
+
+    --gray: #808080;
+    --grayLight: #a0a0a0;
+    --grayDark: #606060;
+
+    --light: #aaaaaa;
+    --lightLight: #cccccc;
+    --lightDark: #888888;
+
+    --white: #f8f8f8;
+
+    /* sizing */
+
+    --minUnit: min(1vw, 1vh);
+    --maxUnit: max(1vw, 1vh);
+
+    /* transitions */
+
+    --restTransition: 0.25s;
+    --hoverTransition: 0.15s;
+    --activeTransition: 0.1s;
+
+    --colorSchemeTransition: 0.25s;
+}
+/* light mode */
+:root, *.lightMode {
+    --backgroundPrimary: var(--white);
+    --backgroundSoft: var(--white-light);
+    --backgroundMute: var(--white-dark);
+
+    --textColorPrimary: var(--black);
+    --textColorSoft: var(--gray);
+
+    
+    --navigationColor: var(--accent);
+    --navigationTextColor: var(--white);
+}
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+    :root, *.darkMode {
+        color-scheme: dark;
+
+        --backgroundPrimary: var(--dark);
+        --backgroundSoft: var(--darkLight);
+        --backgroundMute: var(--darkDark);
+
+        --textColorPrimary: var(--white);
+        --textColorSoft: var(--light);
+
+        --navigationColor: var(--white);
+        --navigationTextColor: var(--dark);
+    }
+}
+
+.themeSencative {
+    transition: color var(--colorSchemeTransition), background-color var(--colorSchemeTransition);
+}
+
+
+
+/* dark mode */
+

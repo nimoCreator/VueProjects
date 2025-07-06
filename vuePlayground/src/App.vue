@@ -18,15 +18,27 @@ export default {
 <style>
 
 body {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Lato','Avenir', Helvetica, Arial, sans-serif;
   background-color: #101214;
-  margin: 0;
 
-  padding: 1rem;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+
+  margin: 0;
+  padding: 0;
+
+  color-scheme: dark;
+
+  height: 100vh;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
 }
 
 * {
