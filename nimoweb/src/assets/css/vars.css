@@ -18,9 +18,9 @@
 
     --black: #000000;
 
-    --dark: #181818;
-    --darkLight: #222222;
-    --darkDark: #282828;
+    --darkDark: #181818;
+    --dark: #222222;
+    --darkLight: #282828;
 
     --gray: #808080;
     --grayLight: #a0a0a0;
@@ -44,34 +44,29 @@
     --activeTransition: 0.1s;
 
     --colorSchemeTransition: 0.25s;
+
+    /* sizes */
+
+    --navbarWidth: 3.5rem;
+    --navbarPadding: 0.5rem;
+    --navbarMargin: 0.5rem;
 }
 /* light mode */
 :root, *.lightMode {
-    --backgroundPrimary: var(--white);
-    --backgroundSoft: var(--white-light);
-    --backgroundMute: var(--white-dark);
+    color-scheme: light;
 
-    --textColorPrimary: var(--black);
-    --textColorSoft: var(--gray);
-
-    
-    --navigationColor: var(--accent);
-    --navigationTextColor: var(--white);
+    --panelBackground: var(--white);
+    --panelBorder: var(--lightDark);
+    --panelTextColor: var(--dark);
 }
 /* dark mode */
 @media (prefers-color-scheme: dark) {
-    :root, *.darkMode {
+    *.darkMode {
         color-scheme: dark;
 
-        --backgroundPrimary: var(--dark);
-        --backgroundSoft: var(--darkLight);
-        --backgroundMute: var(--darkDark);
-
-        --textColorPrimary: var(--white);
-        --textColorSoft: var(--light);
-
-        --navigationColor: var(--white);
-        --navigationTextColor: var(--dark);
+        --panelBackground: var(--darkDark);
+        --panelBorder: var(--darkLight);
+        --panelTextColor: var(--light);
     }
 }
 

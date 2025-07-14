@@ -42,13 +42,13 @@
     </nav>
 
     <div class="languageSelector" :class="{open: isMenuOpen}"> 
-        <div id="pl" :class="{active: language === 'pl'}" @click="updateLanguage('pl')">
-            <FlagPLicon />
-            <span>Polish</span>
-        </div>
         <div id="eng" :class="{active: language === 'en'}" @click="updateLanguage('en')">
             <FlagENGicon />
             <span>English</span>
+        </div>
+        <div id="pl" :class="{active: language === 'pl'}" @click="updateLanguage('pl')">
+            <FlagPLicon />
+            <span>Polish</span>
         </div>
     </div>
 
@@ -315,7 +315,7 @@ transform-origin: top center;
 
     user-select: none;
 
-    transition: 0.4s 0.4s;
+    transition: 0.4s 0.2s;
 }
 .languageSelector.open {
     left: 2rem;

@@ -1,36 +1,41 @@
-<template :class="{lightMode: colorScheme === 'light', darkMode: colorScheme === 'dark'}">
-  <Navigation
-    v-model:language="language" 
-    v-model:colorScheme="colorScheme" 
-  />
+<template>
+  <Navbar/>
   <main>
-    <router-view />
+    <router-view/>
   </main>
 
-  <nimoFooter/>
+  <!-- <nimoFooter/> -->
 </template>
 
 
 <script>
 
 import { storeToRefs } from 'pinia'
+import { watch } from 'vue'
 import { useAppSettingsStore } from '@/assets/js/stores/appSettingsStore'
 import nimoFooter from './components/Footer.vue';
-import Navigation from './components/Navigation.vue';
+import Navbar from './components/Navbar.vue';
+import { useI18n } from 'vue-i18n';
 
 export default {
   name: 'App',
   components: {
     nimoFooter,
-    Navigation
+    Navbar
   },
   setup() {
     const settings = useAppSettingsStore()
     settings.initialize()
-    
-    const { language, colorScheme } = storeToRefs(settings)
 
-    return { language, colorScheme }
+    const { language, colorScheme, animations } = storeToRefs(settings)
+
+    const { locale } = useI18n()
+
+    watch(language, (newLang) => {
+      locale.value = newLang
+    }, { immediate: true })
+
+return { language, colorScheme, animations }
   }
 };
 

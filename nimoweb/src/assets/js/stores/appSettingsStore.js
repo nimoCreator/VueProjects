@@ -17,7 +17,8 @@ function saveSettings(settings) {
 export const useAppSettingsStore = defineStore('appSettings', {
   state: () => ({
     language: 'en',
-    colorScheme: 'light',
+    colorScheme: 'dark',
+    animations: true,
   }),
 
   actions: {
@@ -35,10 +36,19 @@ export const useAppSettingsStore = defineStore('appSettings', {
 
     applyColorSchemeClass() {
       const schemeClass = this.colorScheme === 'dark' ? 'darkMode' : 'lightMode'
-      document.body.classList.remove('lightMode', 'darkMode')
-      document.getElementById('app')?.classList.remove('lightMode', 'darkMode')
+      document.body.classList.remove('lightMode', 'darkMode', 'animationsOff', 'animationsOn')
+      document.getElementById('app')?.classList.remove('lightMode', 'darkMode', 'animationsOff', 'animationsOn')
+
       document.body.classList.add(schemeClass)
       document.getElementById('app')?.classList.add(schemeClass)
+
+      if (!this.animations) {
+        document.body.classList.add('animationsOff')
+        document.getElementById('app')?.classList.add('animationsOff')
+      } else {
+        document.body.classList.add('animationsOn')
+        document.getElementById('app')?.classList.add('animationsOn')
+      }
     }
   }
 })

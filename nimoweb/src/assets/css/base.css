@@ -17,7 +17,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: Lato;
-  background-color: var(--backgroundPrimary);
+  background-color: #000;
   color: var(--textColorPrimary);
 }
 
@@ -170,3 +170,4 @@ p {
   transition:
     scrollbar-color var(--colorSchemeTransition);
 }
+
