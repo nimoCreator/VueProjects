@@ -78,7 +78,12 @@ const router = createRouter({
       path: '/LagoonaRPG',
       name: 'LagoonaRPG',
       component: () => import('@/views/LagoonaRPG.vue'),
-    }
+    },
+    {
+      path: '/CssFuns',
+      name: 'CssFuns',
+      component: () => import('@/views/CssFuns.vue'),
+    },
 
   ],
 })
