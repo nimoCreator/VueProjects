@@ -1,0 +1,359 @@
+/* vars.css */
+:root {
+    /* palette */
+    --red: #f14725;
+    --orange: #fac712;
+    --yellow: #fef445;
+    --lime: #cee741;
+    --green: #8ed14f;
+    --teal: #0fa689;
+    --cyan: #14cdd4;
+    --blue: #00aaff;
+    --indigo: #414bb2;
+    --violet: #652cb3;
+    --purple: #9411ac;
+    --pink: #da0063;
+
+    --accent: var(--blue);
+    --accentLight: #50c5ff;
+    --accentDark: #0088cc;
+
+    --black: #000;
+    --white: #f8f8f8;
+
+    --darkDark: #181818;
+    --dark: #222;
+    --darkLight: #282828;
+
+    --gray: #808080;
+    --grayLight: #a0a0a0;
+    --grayDark: #606060;
+
+    --light: #aaa;
+    --lightLight: #ccc;
+    --lightDark: #888;
+
+    /* Derived UI tokens */
+    --fg: var(--white);
+    --muted: var(--grayLight);
+    --tile: var(--darkDark);
+    --panel: var(--dark);
+    --border: var(--darkLight);
+    --ring: rgba(0, 170, 255, 0.1);
+
+    /* transitions */
+    --transition: 0.25s;
+    --shadow: 0 12px 40px rgba(0, 0, 0, .25);
+}
+
+/* base.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif;
+    background: var(--black);
+    color: var(--fg);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated gradient background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(0, 170, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 170, 255, 0.1) 0%, transparent 50%);
+    z-index: -1;
+    animation: gradientShift 15s ease infinite;
+    pointer-events: none;
+}
+
+@keyframes gradientShift {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+a:hover {
+    color: var(--accentLight);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 32px);
+    width: 100%;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 4vw, 48px);
+}
+
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: clamp(24px, 4vw, 40px);
+    box-shadow: var(--shadow);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 48px rgba(0,0,0,.3);
+}
+
+.card h1 {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.card p {
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: clamp(15px, 1.8vw, 17px);
+    margin-bottom: 16px;
+}
+
+.card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.card li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: clamp(14px, 1.6vw, 16px);
+}
+
+.card li:last-child {
+    border-bottom: none;
+}
+
+.card li::before {
+    content: '✓';
+    color: var(--accent);
+    font-weight: bold;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+.btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--accent), var(--accentLight));
+    color: #000;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 15px;
+    transition: all var(--transition);
+    box-shadow: 0 4px 16px rgba(0, 170, 255, 0.3);
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 170, 255, 0.4);
+    color: #000;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Header */
+header.site {
+    padding: 20px 0;
+    backdrop-filter: blur(10px);
+    background: #4444;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header.site strong {
+    font-size: clamp(20px, 3vw, 24px);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accentLight));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Footer */
+footer.site {
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+    background: #2224;
+    backdrop-filter: blur(10px);
+    margin-top: auto;
+}
+
+footer.site small {
+    font-size: 14px;
+}
+
+/* Main */
+main {
+    flex: 1;
+    padding: clamp(32px, 5vw, 48px) 0;
+}
+
+/* Shop specific styles */
+.shop-icon {
+    font-size: clamp(60px, 10vw, 80px);
+    margin-bottom: 16px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tiles {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .tiles {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Modern Custom Scrollbar */
+
+/* Width and base styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track styling - the area behind the thumb */
+::-webkit-scrollbar-track {
+  background-color: var(--backgroundMute);
+  border-radius: 8px;
+}
+
+/* Handle styling - the draggable scrolling element */
+::-webkit-scrollbar-thumb {
+  background: var(--navigationColor);
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--navigationColor);
+}
+
+/* Handle on active/clicking */
+::-webkit-scrollbar-thumb:active {
+  background: var(--navigationColor);
+}
+
+/* Corner where horizontal and vertical scrollbars meet */
+::-webkit-scrollbar-corner {
+  background: var(--backgroundMute);
+}
+
+/* Firefox specific scrollbar (uses different syntax) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--navigationColor) var(--backgroundPrimary);
+}
+
+/* For dark mode - automatic adaptation */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background-color: var(--darkDark);
+  }
+  
+  ::-webkit-scrollbar-corner {
+    background: var(--darkDark);
+  }
+}
+
+/* Light mode specific adjustments */
+.lightMode ::-webkit-scrollbar-track,
+.lightMode ::-webkit-scrollbar-corner {
+  background-color: var(--lightDark);
+}
+
+/* Dark mode specific adjustments */
+.darkMode ::-webkit-scrollbar-track,
+.darkMode ::-webkit-scrollbar-corner {
+  background-color: var(--darkDark);
+}
+
+/* Optional: Hide scrollbar but keep functionality (show on hover) */
+.hideScrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.hidScrollbar:hover::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* scrollbar color scheme transition for all selectors */
+
+::-webkit-scrollbar,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-corner {
+  background: var(--backgroundMute);
+  transition: 
+    color var(--colorSchemeTransition), 
+    background-color var(--colorSchemeTransition),
+    background var(--colorSchemeTransition),
+    scrollbar-color var(--colorSchemeTransition);
+}
+
+* {
+  transition:
+    scrollbar-color var(--colorSchemeTransition);
+}
+

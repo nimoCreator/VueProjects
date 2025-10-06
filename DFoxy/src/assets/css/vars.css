@@ -1,0 +1,91 @@
+:root {
+    /* palette */
+    --red: #f14725;
+    --orange: #fac712;
+    --yellow: #fef445;
+    --lime: #cee741;
+    --green: #8ed14f;
+    --teal: #0fa689;
+    --cyan: #14cdd4;
+    --blue: #00aaff;
+    --indigo: #414bb2;
+    --violet: #652cb3;
+    --purple: #9411ac;
+    --pink: #da0063;
+
+    --accent: var(--blue);
+    --accentLight: #50c5ff;
+    --accentDark: #0088cc;
+
+    --black: #000;
+    --white: #f8f8f8;
+
+    --darkDark: #181818;
+    --dark: #222;
+    --darkLight: #282828;
+
+    --gray: #808080;
+    --grayLight: #a0a0a0;
+    --grayDark: #606060;
+
+    --light: #aaa;
+    --lightLight: #ccc;
+    --lightDark: #888;
+
+    /* sizing */
+    --minUnit: min(1vw, 1vh);
+    --maxUnit: max(1vw, 1vh);
+
+    /* transitions */
+    --restTransition: .25s;
+    --hoverTransition: .15s;
+    --activeTransition: .1s;
+    --colorSchemeTransition: .25s;
+
+    /* layout */
+    --navbarWidth: 3.5rem;
+    --navbarPadding: .5rem;
+    --navbarMargin: .5rem;
+
+    /* base/backgrounds (used by scrollbar rules) */
+    --backgroundPrimary: #000;
+    --backgroundMute: #111;
+
+    /* derived UI tokens used by components */
+    --panelBackground: var(--darkDark);
+    --panelBorder: var(--darkLight);
+    --panelTextColor: var(--light);
+
+    --textColorPrimary: var(--white);
+    --borderColor: var(--panelBorder);
+    --radius: 14px;
+    --shadow: 0 6px 20px rgba(0, 0, 0, .15);
+    --containerPadX: calc(2 * var(--minUnit));
+}
+
+/* Light mode (can also apply with .lightMode on <body>) */
+:root,
+*.lightMode {
+    color-scheme: light;
+    --panelBackground: var(--white);
+    --panelBorder: var(--lightDark);
+    --panelTextColor: var(--dark);
+
+    --textColorPrimary: var(--dark);
+    --backgroundPrimary: #f6f8fb;
+    --backgroundMute: #e9edf3;
+}
+
+/* Dark mode (prefers-color-scheme) can be forced with .darkMode */
+@media (prefers-color-scheme: dark) {
+    *.darkMode {
+        color-scheme: dark;
+        --panelBackground: var(--darkDark);
+        --panelBorder: var(--darkLight);
+        --panelTextColor: var(--light);
+
+        --textColorPrimary: var(--white);
+        --backgroundPrimary: #000;
+        --backgroundMute: #111;
+    }
+}
