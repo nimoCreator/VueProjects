@@ -13,5 +13,5 @@ export default createRouter({
     { path: '/shop', component: ShopView },
     { path: '/:pathMatch(.*)*', component: NoneView }, 
   ],
-  scrollBehavior() { return { top: 0 } }
+  // scrollBehavior() { return { top: 0 } }
 })

@@ -84,7 +84,16 @@ const router = createRouter({
       name: 'CssFuns',
       component: () => import('@/views/CssFuns.vue'),
     },
-
+    {
+      path: '/playground',
+      name: 'playground',
+      component: () => import('@/views/Playground.vue'),
+    },
+    {
+      path: `/clock`,
+      name: 'clock',
+      component: () => import('@/views/Clock.vue'),
+    }
   ],
 })
 

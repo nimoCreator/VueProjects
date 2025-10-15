@@ -14,7 +14,6 @@
                         <span class="slot cur">{{ cur.days }}</span>
                     </div>
                 </div>
-                <span class="label">Dni</span>
             </div>
             <div class="tile">
                 <div class="digit" :class="{ rolling: rollHours }" :key="reelKeyHours"
@@ -24,7 +23,6 @@
                         <span class="slot cur">{{ cur.hours }}</span>
                     </div>
                 </div>
-                <span class="label">Godzin</span>
             </div>
             <div class="tile">
                 <div class="digit" :class="{ rolling: rollMinutes }" :key="reelKeyMinutes"
@@ -34,7 +32,6 @@
                         <span class="slot cur">{{ cur.minutes }}</span>
                     </div>
                 </div>
-                <span class="label">Minut</span>
             </div>
             <div class="tile">
                 <div class="digit" :class="{ rolling: rollSeconds }" :key="reelKeySeconds"
@@ -44,9 +41,13 @@
                         <span class="slot cur">{{ cur.seconds }}</span>
                     </div>
                 </div>
-                <span class="label">Sekund</span>
             </div>
+            <span class="label">Dni</span>
+            <span class="label">Godzin</span>
+            <span class="label">Minut</span>
+            <span class="label">Sekund</span>
         </div>
+        <p v-if="msLeft() === 0" class="muted" style="margin-top:8px">To dzis! Widzimy sie na wydarzeniu 🎉</p>
     </section>
 </template>
 
@@ -111,6 +112,11 @@ export default defineComponent({
 
             const next = this.computeParts()
 
+            if (this.msLeft() === 0 && this.tickId) {
+                window.clearInterval(this.tickId)
+                this.tickId = 0
+            }
+
             if (initial) {
                 this.cur = { ...next }
                 this.prev = { ...next }
@@ -144,10 +150,14 @@ export default defineComponent({
 <style scoped>
 .countdown {
     color: var(--fg);
-    padding: clamp(24px, 4vw, 48px) clamp(16px, 3vw, 32px);
     display: grid;
     gap: clamp(28px, 4vw, 40px);
     place-items: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 }
 
 .header {
@@ -159,7 +169,7 @@ export default defineComponent({
     font-weight: 800;
     letter-spacing: -0.5px;
     margin-bottom: 12px;
-    background: linear-gradient(135deg, var(--fg) 0%, var(--accentLight) 100%);
+    background: linear-gradient(135deg, var(--fg) 0%, color-mix(in srgb, var(--fg), var(--accentLight) 20%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -173,9 +183,14 @@ export default defineComponent({
 
 .tiles {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: clamp(16px, 2.5vw, 24px);
+    grid-template-columns: repeat(4, clamp(40px, 20vw, 160px));
+    gap: clamp(2px, 1vw, 12px) clamp(8px, 2.5vw, 24px);
     width: min(900px, 100%);
+
+    text-align: center;
+
+    justify-content: center;
+    align-items: center;
 }
 
 .tile {
@@ -183,7 +198,7 @@ export default defineComponent({
     border: 1px solid var(--accent);
     border-radius: 24px;
     padding: clamp(20px, 3vw, 32px) clamp(16px, 2.5vw, 24px);
-    box-shadow: 0 12px 40px rgba(0,0,0,.25), 0 0 0 1px var(--ring) inset;
+    box-shadow: 0 -15px 40px var(--ring), 0 0 0 1px var(--ring) inset;
     display: grid;
     justify-items: center;
     gap: 16px;
@@ -203,20 +218,15 @@ export default defineComponent({
     pointer-events: none;
 }
 
-.tile:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 48px rgba(0,0,0,.3), 0 0 0 1px rgba(0, 170, 255, 0.3) inset;
-}
-
 .digit {
     position: relative;
     width: 100%;
-    height: clamp(60px, 8vw, 90px);
+    height: clamp(10px, 8vw, 50px);
     overflow: hidden;
     border-radius: 16px;
     display: grid;
     align-items: center;
-    background: linear-gradient(180deg, rgba(34, 34, 34, 0.6) 0%, transparent 100%);
+    justify-content: center;
 }
 
 .reel {
@@ -233,36 +243,29 @@ export default defineComponent({
     transform: translateY(-50%);
 }
 
+.digit:not(.rolling) .cur {
+    color: transparent;
+}
+
 .slot {
     display: grid;
     place-items: center;
     font-variant-numeric: tabular-nums;
-    font-size: clamp(40px, 7vw, 72px);
+    font-size: clamp(20px, 5vw, 40px);
     font-weight: 800;
     line-height: 1;
     letter-spacing: 2px;
     padding: 4px 0;
-    text-shadow: 0 2px 20px rgba(0, 170, 255, 0.5);
+    text-shadow: 0 2px 20px #04161f80;
 }
 
 .label {
     color: var(--muted);
-    font-size: clamp(12px, 1.5vw, 14px);
+    font-size: clamp(12px, 2.5vw, 24px);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
     user-select: none;
 }
 
-@media (max-width: 768px) {
-    .tiles {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 500px) {
-    .tiles {
-        grid-template-columns: 1fr;
-    }
-}
 </style>
