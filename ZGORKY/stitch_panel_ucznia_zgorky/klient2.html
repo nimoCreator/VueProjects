@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="dark" lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ZGORKY - Panel Instruktora</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: "#30d5c8",
+                            light: "#48e0d4",
+                            dark: "#29bcae"
+                        },
+                        "background-dark": "#171717",
+                        "surface-dark": "#212121",
+                        "muted-dark": "#a1a1aa",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        'xl': '1rem',
+                        '2xl': '1.5rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+                        'soft-dark': '0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2)',
+                    }
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #171717;
+            color: #e5e7eb;
+        }
+        .bg-primary-desaturated {
+            background-color: #5f9ea0;}
+        .text-primary-desaturated {
+            color: #5f9ea0;}
+        .border-primary-desaturated {
+             border-color: #5f9ea0;
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-sans">
+<div class="flex min-h-screen">
+<aside class="w-64 bg-surface-dark p-4 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDi1WNVnUXKt3LHrBvIQlt_Fb6nnjRgt9AzOSun534-ZvmZoR2tluxlu-iaUeJnADwXHhDVB8NK3R_TWEF83TU--PsA3doLm-9lNAyR_J8CePPOZNRs6_-F5bYetOLpwd9_Y73sDrYQ8WwQ8dMwm2VRPCGy5F4eBNFarG9sWk9qBsTUDaieacK5jLZ1XW_OV0aRlINYUQvP6KpmwDhbgat2dPnKYekXt8K3pArwtXm8zKX6H-kl2f-yhq7q7m_0UKrWVTVUxm2bZGs");'></div>
+<div>
+<h1 class="text-base font-semibold text-white">Kacper Nowak</h1>
+<p class="text-xs text-muted-dark">Instruktor</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/5" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary-desaturated/20 text-primary-desaturated font-semibold" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0h18M9.75 14.25h.008v.008H9.75v-.008Zm3.375 0h.008v.008h-.008v-.008Zm3.375 0h.008v.008h-.008v-.008Z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span class="font-medium text-sm">Rezerwacje</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/5" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m-7.5-2.969A4.5 4.5 0 1 0 12 12a4.5 4.5 0 0 0-3.742 7.052M12 21a9.094 9.094 0 0 0-3.742-.479 3 3 0 0 0-4.682 2.72M6.75 18.72a9.094 9.094 0 0 1-3.741-.479 3 3 0 0 1 4.682-2.72" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span class="font-medium text-sm">Klienci</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/5" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.24-.438.613-.438.995a6.473 6.473 0 0 1 0 1.062c0 .382.145.755.438.995l1.003.827c.485.4.664 1.073.26 1.431l-1.296 2.247a1.125 1.125 0 0 1-1.37.49l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313-.686-.645-.87a6.52 6.52 0 0 1-.22-.127c-.324-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 0 1-1.37-.49l-1.296-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.437-.995a6.473 6.473 0 0 1 0-1.062c0-.382-.145-.755-.437-.995l-1.004-.827a1.125 1.125 0 0 1-.26-1.431l1.296-2.247a1.125 1.125 0 0 1 1.37-.49l1.217.456c.355.133.75.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.213-1.28Z" stroke-linecap="round" stroke-linejoin="round"></path><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span class="font-medium text-sm">Ustawienia</span>
+</a>
+</nav>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-white/5" href="#">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<span class="font-medium text-sm">Wyloguj</span>
+</a>
+</aside>
+<main class="flex-1 p-8 bg-background-dark">
+<div class="max-w-5xl mx-auto">
+<header class="mb-8">
+<h1 class="text-3xl font-bold text-white">Rezerwacje</h1>
+</header>
+<div class="border-b border-white/10 mb-6">
+<nav aria-label="Tabs" class="-mb-px flex gap-8">
+<a class="whitespace-nowrap py-4 px-1 border-b-2 border-primary-desaturated text-primary-desaturated font-semibold text-sm" href="#">Nadchodzące</a>
+<a class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent text-muted-dark hover:text-gray-300 hover:border-gray-500 font-medium text-sm" href="#">Historia</a>
+</nav>
+</div>
+<div class="space-y-10">
+<div>
+<h2 class="text-lg font-semibold text-white mb-4">Dzisiaj</h2>
+<div class="space-y-5">
+<div class="bg-surface-dark p-6 rounded-2xl shadow-soft-dark border border-white/10">
+<div class="flex items-center justify-between">
+<div>
+<p class="font-semibold text-white">Rezerwacja #12345</p>
+<p class="text-sm text-muted-dark">10:00 - 12:00</p>
+</div>
+<button class="bg-primary-desaturated/20 text-primary-desaturated font-semibold py-2 px-4 rounded-xl text-sm hover:bg-primary-desaturated/30 transition-colors">
+                                        Szczegóły
+                                    </button>
+</div>
+<div class="mt-6 pt-6 border-t border-white/10">
+<h3 class="font-medium text-gray-300 mb-4">Uczniowie:</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDPsA7KTqOecuZhmAo02BSmNYNWfoaaenBiB36ZdUuEdxV3nDEjaoOJg-MOdxCgBGYXe-WoKyq4dMmi99ZCpaSnLxVrGNWIUy-63-2LSxxsTIm5zDQ5PLfdbnF5Zngo8ZuDR3eWcdp1MGZLMnLh7vLfYlBZEBGFa9rgdgSbgaZ6c-elX6FL6Xn19tV1cDxNVO_ZqKXNdb0BHG2FPE9qRVThVXcCdSojkz7PlE0SLCkGEKtxDFQ8nm-hci2O-BP9hidGbQ5HwP50WJ4");'></div>
+<span class="text-sm font-medium text-gray-200">Jan Kowalski</span>
+</div>
+<span class="text-xs font-medium text-primary-desaturated bg-primary-desaturated/10 px-2.5 py-1 rounded-full">Początkujący</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-9" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDi1WNVnUXKt3LHrBvIQlt_Fb6nnjRgt9AzOSun534-ZvmZoR2tluxlu-iaUeJnADwXHhDVB8NK3R_TWEF83TU--PsA3doLm-9lNAyR_J8CePPOZNRs6_-F5bYetOLpwd9_Y73sDrYQ8WwQ8dMwm2VRPCGy5F4eBNFarG9sWk9qBsTUDaieacK5jLZ1XW_OV0aRlINYUQvP6KpmwDhbgat2dPnKYekXt8K3pArwtXm8zKX6H-kl2f-yhq7q7m_0UKrWVTVUxm2bZGs");'></div>
+<span class="text-sm font-medium text-gray-200">Anna Nowak</span>
+</div>
+<span class="text-xs font-medium text-primary-desaturated bg-primary-desaturated/10 px-2.5 py-1 rounded-full">Średniozaaw.</span>
+</div>
+</div>
+<div class="mt-6">
+<h4 class="font-medium text-gray-300 mb-2">Notatki:</h4>
+<p class="text-sm text-muted-dark p-4 bg-background-dark rounded-xl">Proszę skupić się na technice skrętu carvingowego u obu uczniów. Anna ma problemy z utrzymaniem równowagi przy większych prędkościach.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div>
+<h2 class="text-lg font-semibold text-white mb-4">Jutro</h2>
+<div class="space-y-5">
+<div class="bg-surface-dark p-5 rounded-2xl shadow-soft-dark flex items-center justify-between border border-white/10">
+<div>
+<p class="font-semibold text-white">Rezerwacja #67890</p>
+<p class="text-sm text-muted-dark">14:00 - 16:00</p>
+</div>
+<button class="bg-primary-desaturated/20 text-primary-desaturated font-semibold py-2 px-4 rounded-xl text-sm hover:bg-primary-desaturated/30 transition-colors">
+                                    Szczegóły
+                                </button>
+</div>
+<div class="bg-surface-dark p-5 rounded-2xl shadow-soft-dark flex items-center justify-between border border-white/10">
+<div>
+<p class="font-semibold text-white">Rezerwacja #11223</p>
+<p class="text-sm text-muted-dark">16:00 - 18:00</p>
+</div>
+<button class="bg-primary-desaturated/20 text-primary-desaturated font-semibold py-2 px-4 rounded-xl text-sm hover:bg-primary-desaturated/30 transition-colors">
+                                    Szczegóły
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

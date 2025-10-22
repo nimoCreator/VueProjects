@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ZGORKY - Book a Lesson</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#22e2cf",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#11211f",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2330d5c8' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+    <div class="flex flex-col min-h-screen">
+        <header class="border-b border-primary/20 dark:border-primary/30 px-4 sm:px-6 lg:px-8" style="background-color: #22e2cf">
+            <div class="container mx-auto flex items-center justify-between h-20">
+                <div class="flex items-center gap-4">
+                    <div class="size-12 text-primary">
+                        <img src="../logo.png" alt="Logo" height="60" style="filter: invert(0.5) brightness(200);">
+                    </div>
+                    <h1 class="text-4xl font-bold text-gray-900" style="color: white">ZGORKY</h1>
+                </div>
+                <nav class="hidden md:flex items-center gap-8">
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Lessons</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Instructors</a>
+                    <a class="text-sm font-medium hover:text-primary transition-colors" href="#">Contact</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button class="p-2 rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+                        <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="p-2 rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+                        <svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z">
+                            </path>
+                        </svg>
+                    </button>
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB4hZiFSjFAVLFWd25-8GT2EQoXtze0cIISDhAO2ZPWBAHR6Z_Y4ngG-zLTWpHOq-UXtd4KRVjnIbfpyo7bdVFHaZC5hBLt3TOeq17jFHQ-tzNyO2uZkZUaBNd6vajBKLNEbrb9Yx3BPCanBOZ_NtYljvBjOACABmiOZ4Tugw7ABJaJ-MO-3PPDc0eIml56a8U8c0urzkn9EO4JiF0t-D3fqSEAHVVawO7wmRWvqeAoY-DU8aRHaQUc5nmZQeQNfd4hXIe-ZI5NtO4");'>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div class="w-full max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-start">
+                <div
+                    class="bg-white dark:bg-background-dark p-6 sm:p-8 rounded-xl shadow-lg border border-primary/20 dark:border-primary/30 flex flex-col gap-6">
+                    <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white">Book a Lesson</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                for="lesson-type">Lesson Type</label>
+                            <select
+                                class="form-select w-full h-12 px-4 bg-background-light dark:bg-black/20 border border-primary/30 dark:border-primary/40 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                                id="lesson-type" name="lesson-type">
+                                <option>Select lesson type</option>
+                                <option>Individual</option>
+                                <option>Group</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                                for="lesson-time">Time</label>
+                            <select
+                                class="form-select w-full h-12 px-4 bg-background-light dark:bg-black/20 border border-primary/30 dark:border-primary/40 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                                id="lesson-time" name="lesson-time">
+                                <option>Select a time</option>
+                                <option>09:00 - 10:00</option>
+                                <option>10:00 - 11:00</option>
+                                <option>11:00 - 12:00</option>
+                                <option>13:00 - 14:00</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button style="color: white"
+                        class="w-full bg-primary text-background-dark font-bold py-3 px-4 rounded-lg hover:bg-opacity-90 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        Book Now
+                    </button>
+                </div>
+                <div
+                    class="bg-white dark:bg-background-dark p-6 sm:p-8 rounded-xl shadow-lg border border-primary/20 dark:border-primary/30">
+                    <div class="flex items-center justify-between mb-4">
+                        <button class="p-2 rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+                            <svg fill="currentColor" height="18px" viewBox="0 0 256 256" width="18px"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z">
+                                </path>
+                            </svg>
+                        </button>
+                        <p class="text-lg font-bold text-gray-900 dark:text-white">October 2024</p>
+                        <button class="p-2 rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+                            <svg fill="currentColor" height="18px" viewBox="0 0 256 256" width="18px"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 text-center">
+                        <p class="font-bold text-sm text-gray-500 dark:text-gray-400 py-2">S</p>
+                        <p class="font-bold text-sm text-gray-500 dark:text-gray-400 py-2">M</p>
+                        <p class="font-bold text-sm text-gray-500 dark:text-gray-400 py-2">T</p>
+                        <p class="font-bold text-sm text-gray-500 dark:text-gray-400 py-2">W</p>
+                        <p class="font-bold text-sm text-gray-500 dark:text-gray-400 py-2">T</p>
+                        <p class="font-bold text-sm text-gray-500 dark:text-gray-400 py-2">F</p>
+                        <p class="font-bold text-sm text-gray-500 dark:text-gray-400 py-2">S</p>
+                        <div class="col-start-3"></div>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">1</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">2</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">3</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">4</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full bg-primary text-background-dark font-bold">5</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">6</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">7</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">8</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">9</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">10</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">11</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">12</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">13</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">14</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">15</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">16</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">17</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">18</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">19</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">20</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">21</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">22</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">23</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">24</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">25</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">26</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">27</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">28</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">29</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">30</button>
+                        <button
+                            class="h-10 w-10 flex items-center justify-center rounded-full hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">31</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
