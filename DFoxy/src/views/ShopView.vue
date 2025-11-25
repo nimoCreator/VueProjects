@@ -14,8 +14,7 @@
       </figure>
       <h2>Limitowana plyta CD — DJ set</h2>
       <small>Dostępne jest tylko 5 sztuk!</small>
-      <small class="muted">numerowane + autograf</small>
-      <small v-if="!canBuy" class="muted">Sprzedaz startuje 13 listopada 2025, 12:00.</small>
+      <small v-if="!canBuy" class="muted">Sprzedaz startuje 13 listopada 2025</small>
       <div class="flexRow">
         <button class="btn" :disabled="!canBuy" :title="canBuy ? 'Kup teraz' : 'Dostepne 1 dzien przed wydarzeniem'"
           @click="openForm">Kup teraz</button>
@@ -32,11 +31,11 @@
           <strong>Formularz zakupu</strong>
           <button class="gform-close" @click="closeForm" aria-label="Zamknij">✕</button>
         </header>
-        <iframe ref="iframe" title="Google Form — Dfoxy" loading="lazy" allow="clipboard-write *" src=" https://forms.gle/3kQZgLSykWocPPuz5" />
+        <iframe ref="iframe" title="Google Form — Dfoxy" loading="lazy" allow="clipboard-write *" :src="formUrl" />
 
         <footer class="gform-foot">
           <button class="btn" @click="copyLink">Kopiuj link</button>
-          <a class="lower_btn" href="https://forms.gle/3kQZgLSykWocPPuz5" target="_blank" rel="noopener">Otworz w nowej
+          <a class="lower_btn" :href="formUrl" target="_blank" rel="noopener">Otworz w nowej
             karcie</a>
         </footer>
       </div>
@@ -48,22 +47,19 @@
 
 import { defineComponent } from 'vue'
 
-const FORM_B64 = 'aHR0cHM6Ly9mb3Jtcy5nbGUvM2tRWmdMU3lrV09jUFB1ejU=' // https://forms.gle/3kQZgLSykWocPPuz5
-
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSd2aZDjnqP_hoSjUCs4RzNU4viMi8jGMPX9jBnJrRiiBTlE_Q/viewform?usp=dialog' 
 export default defineComponent({
   name: 'ShopView',
 
   data() {
     return {
-      devOverrideCanBuy: false as boolean,
     }
   },
 
   computed: {
     canBuy(): boolean {
-      const target = new Date('2025-11-14T12:00:00')
-      const openAt = new Date(target.getTime() - 24 * 60 * 60 * 1000)
-      return this.devOverrideCanBuy || new Date() >= openAt
+      const target = new Date('2025-11-13T15:00:00')
+      return new Date() >= target
     },
     formUrl(): string {
       return this.getFormUrl()
@@ -73,26 +69,6 @@ export default defineComponent({
   mounted() {
     const dlg = this.$refs.dlg as HTMLDialogElement | undefined
     try { if (dlg?.open) dlg.close() } catch {}
-
-    const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.altKey && e.code === 'KeyB') {
-        e.preventDefault()
-        this.devOverrideCanBuy = !this.devOverrideCanBuy
-      }
-      if (e.ctrlKey && e.shiftKey && e.altKey && e.code === 'KeyO') {
-        e.preventDefault()
-        this.forceOpen()
-      }
-    }
-    window.addEventListener('keydown', handler)
-    ;(this as any)._cheatHandler = handler
-
-    ;(window as any).__dfox = {
-      toggle: () => (this.devOverrideCanBuy = !this.devOverrideCanBuy),
-      on: () => (this.devOverrideCanBuy = true),
-      off: () => (this.devOverrideCanBuy = false),
-      open: () => this.forceOpen(),
-    }
   },
 
   beforeUnmount() {
@@ -103,7 +79,7 @@ export default defineComponent({
   methods: {
     // prosty decoder; w razie bledu zwraca url jawny
     getFormUrl(): string {
-      try { return atob(FORM_B64) } catch { return 'https://forms.gle/3kQZgLSykWocPPuz5' }
+      try { return FORM_URL } catch { return 'https://docs.google.com/forms/d/e/1FAIpQLSd2aZDjnqP_hoSjUCs4RzNU4viMi8jGMPX9jBnJrRiiBTlE_Q/viewform?usp=dialog' }
     },
 
     openInNewTab() {
@@ -111,7 +87,7 @@ export default defineComponent({
     },
 
     blockClick() {
-      alert('Sprzedaz rozpocznie sie 1 dzien przed wydarzeniem, 13 listopada 2025, 12:00.')
+      alert('Sprzedaz rozpocznie sie wkrótce.')
     },
 
     openForm() {
@@ -280,7 +256,6 @@ export default defineComponent({
   place-items: center;
   padding: clamp(12px, 2.2vw, 18px);
   border-radius: 22px;
-  border: 1px solid var(--panelBorder);
 }
 
 /* puchate, zblurowane bloby pod PNG (widoczne przez przezroczystosc) */

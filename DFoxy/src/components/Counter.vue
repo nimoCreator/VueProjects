@@ -58,7 +58,7 @@ export default defineComponent({
     name: 'Countdown',
     data() {
         return {
-            target: new Date('2025-11-14T12:00:00'),
+            target: new Date('2025-11-14T02:00:00'),
             now: new Date(),
             tickId: 0 as number,
 

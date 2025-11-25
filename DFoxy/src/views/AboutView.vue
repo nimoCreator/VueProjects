@@ -3,17 +3,13 @@
     <h1>O wydarzeniu</h1>
 
     <p>
-      14 listopada 2025 — czeka ciebie mega wydarzenie na Futrołajkach, gdzie będziecie mogli usłyszeć unikalny
-      DJ set od Dfoxy.
+Jakby mało było zniszczeń, to wtedy wchodzi on, cały na czarno, cesarz Wixapolu. Razem z nim dojedziecie do ostatniego przystanku niezapomnianych wrażeń tego wieczoru i przeżyjecie jedną z najbardziej znanych form imprez w Polsce. Oto jedno z wcieleń potocznie zwanej “Wixy” ~Tekstu pochodzi ze strony futrolajki.pl
     </p>
 
     <ul class="stack">
-      <li><strong>Kiedy?</strong> - 14 listopada 2025 (piatek)</li>
-      <li><strong>Gdzie?:</strong> Futrołajki, Kielce</li>
-      <li><strong>Limitowane wydania:</strong> numerowane CD z autografem, unikalna grafika i sekcja „Behind The Mix”
-      </li>
-      <li><strong>Kontakt:</strong> <a href="http://t.me/DfoxyPL" target="_blank"
-          rel="noopener">@DfoxyPL</a></li>
+      <li><strong>Kiedy?</strong> Noc z czwartku 13 listopada na piątek 14 listopada, godzina 2:00 </li>
+      <li><strong>Gdzie?</strong> Sala Hyperion - Mainstage </li>
+      <li><strong>Limitowane wydania:</strong> Fizyczny zapis DJ setu na płycie CD</li>
     </ul>
   </section>
 
