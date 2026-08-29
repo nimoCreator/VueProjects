@@ -25,9 +25,9 @@
                                 <span class="rankNumber">{{ index + 1 }}</span>
                             </div>
                             <div class="icon">
-                                <img :src="getAvatarUrl(member)" :alt="member.username" class="avatarImg">
+                                <img :src="member.avatar" :alt="member.username" class="avatarImg">
                             </div>
-                            <div class="Label name">{{ member.nickname }}</div>
+                            <div class="Label name">{{ getDisplayName(member) }}</div>
                             <div class="SubLabel category">@{{ member.username }}</div>
                             <div class="score count">
                                 <span class="scoreAmount">
@@ -103,8 +103,7 @@ export default {
     methods: {
         randomiseData() {
             this.members = [];
-            let min = 0, max = 10;
-            for(let i = 0; i < Math.random() * (max - min + 1) + min - 1; i++) {
+            for(let i = 0; i < 10; i++) {
                 this.members.push(
                     {
                         ...this.fullMembersList[Math.floor(Math.random() * this.fullMembersList.length)],
@@ -115,8 +114,8 @@ export default {
             this.members.sort((a, b) => b.vcMinutes - a.vcMinutes);
             this.maxValue = this.members.length > 0 ? this.members[0].vcMinutes : 0;
         },
-        getAvatarUrl(member) {
-            return `https://api.dicebear.com/9.x/adventurer/svg?seed=${encodeURIComponent(member.username)}`;
+        getDisplayName(member) {
+            return member.nickname || member.display_name || member.username;
         },
         getDurationLabel(totalMinutes) {
             const hours = Math.floor(totalMinutes / 60);

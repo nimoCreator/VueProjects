@@ -299,6 +299,7 @@
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+    corner-shape: squircle;
 }
 .rankingEntry .Label {
     grid-area: label;
@@ -324,7 +325,7 @@
         color-mix(in srgb, white 10%, var(--rankingColorLight)) 0%,
         color-mix(in srgb, white 90%, var(--rankingColor)) 40%,
         color-mix(in srgb, white 30%, var(--rankingColorDark)) 80%,
-        color-mix(in srgb, var(--backgroundColor) 80%, var(--rankingColorDark)) 100%);
+        color-mix(in srgb, var(--backgroundColor) 25%, var(--rankingColorDark)) 100%);
 
     -webkit-background-clip: text;
     background-clip: text;
