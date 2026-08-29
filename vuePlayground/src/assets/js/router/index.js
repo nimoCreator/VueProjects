@@ -93,7 +93,52 @@ const router = createRouter({
       path: `/clock`,
       name: 'clock',
       component: () => import('@/views/Clock.vue'),
-    }
+    },
+    {
+      path: '/funnyMathQuestion',
+      name: 'funnyMathQuestion',
+      component: () => import('@/views/FunnyMathQuestion.vue'),
+    },
+    {
+      path: '/lagoona-stats-posts/daily-channels',
+      name: 'DailyChannels',
+      component: () => import('@/views/LagoonaStatsPosts/DailyChannels.vue'),
+    },
+    {
+      path: '/lagoona-stats-posts/daily-messages-sent',
+      name: 'DailyMessagesSent',
+      component: () => import('@/views/LagoonaStatsPosts/DailyMessagesSent.vue'),
+    },
+    {
+      path: '/lagoona-stats-posts/daily-reactions',
+      name: 'DailyReactions',
+      component: () => import('@/views/LagoonaStatsPosts/DailyReactions.vue'),
+    },
+    {
+      path: '/lagoona-stats-posts/daily-vc',
+      name: 'DailyVC',
+      component: () => import('@/views/LagoonaStatsPosts/DailyVC.vue'),
+    },
+    {
+      path: '/lagoona-stats-posts/weekly-channels',
+      name: 'WeeklyChannels',
+      component: () => import('@/views/LagoonaStatsPosts/WeeklyChannels.vue'),
+    },
+    {
+      path: '/lagoona-stats-posts/weekly-messages-sent',
+      name: 'WeeklyMessagesSent',
+      component: () => import('@/views/LagoonaStatsPosts/WeeklyMessagesSent.vue'),
+    },
+    {
+      path: '/lagoona-stats-posts/weekly-reactions',
+      name: 'WeeklyReactions',
+      component: () => import('@/views/LagoonaStatsPosts/WeeklyReactions.vue'),
+    },
+    {
+      path: '/lagoona-stats-posts/weekly-vc',
+      name: 'WeeklyVC',
+      component: () => import('@/views/LagoonaStatsPosts/WeeklyVC.vue'),
+    },
   ],
 })
 

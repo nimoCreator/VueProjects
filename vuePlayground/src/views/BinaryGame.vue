@@ -1,6 +1,6 @@
   <template>
   <div id="BinaryGame">
-    <div class="flexCenter" :class="inputModeEnum === 'tools' ? `cursor-${selectedTool}` : ''">
+    <div class="flexCenter" :class="[{ solving: isSolveAnimating }, inputModeEnum === 'tools' ? `cursor-${selectedTool}` : '']">
       <div id="playAreaGrid" :style="{'--playAreaSize': playArea.length}">
         <template v-for="(row, i) in playArea" :key="i">
           <div v-for="(cell, j) in row" :key="j">
@@ -87,16 +87,18 @@
       </div>
 
       <hr style="width: 100%;">
-      <button @click="fillAreaWithRandom">random Fill</button>
+      <button @click="fillAreaWithRandom" :disabled="isSolveAnimating">random Fill</button>
       <div>
-        <input type="range" id="fillness" v-model="fillness" min="0" max="100" step="1"/>
+        <input type="range" id="fillness" v-model="fillness" min="0" max="100" step="1" :disabled="isSolveAnimating"/>
         <label for="fillness">{{ fillness/100 }}% Fillness</label>
       </div>
       <div>
-        <input type="range" id="playAreaSize" v-model="playAreaSize" min="2" max="12" step="2"/>
+        <input type="range" id="playAreaSize" v-model="playAreaSize" min="2" max="12" step="2" :disabled="isSolveAnimating"/>
         <label for="playAreaSize">{{ playAreaSize }} Play Area Size</label>
       </div>
-      <button @click="solve">Solve</button>
+      <button @click="solve" :disabled="isSolveAnimating">
+        {{ isSolveAnimating ? 'Solving...' : 'Solve' }}
+      </button>
       <span>valid: {{ valid }}</span>
       <span>solutions: {{ solutionsCount }}</span>
     </div>
@@ -157,6 +159,10 @@ export default {
       mouseX: 0,
       mouseY: 0,
 
+      isSolveAnimating: false,
+      solveTickDelay: 60,
+      solveAnimationToken: 0,
+
     }
   },
   mounted() {
@@ -165,6 +171,7 @@ export default {
     window.addEventListener("keydown", this.handleKeyPress);
   },
   beforeUnmount() {
+    this.stopSolveAnimation();
     window.removeEventListener("mousemove", this.updateMousePosition);
     window.removeEventListener("keydown", this.handleKeyPress);
   },
@@ -175,6 +182,7 @@ export default {
   },
   methods: {
     handleKeyPress(event) {
+      if (this.isSolveAnimating) return;
       if (this.inputModeEnum !== 'tools') return;
 
       switch (event.key.toLowerCase()) {
@@ -200,6 +208,7 @@ export default {
     },
     leftClickCell(x, y)
     {
+      if (this.isSolveAnimating) return;
       if(this.inputModeEnum == 'mouseClicks')
       {
         if (this.playArea[x][y].value === null || this.playArea[x][y].value === 0) 
@@ -231,11 +240,13 @@ export default {
       this.verifySolvability();
     },
     rightClickCell(i) {
+      if (this.isSolveAnimating) return;
       if(this.inputModeEnum == 'tools') return;
 
       this.rightClickCell(Math.floor(i / this.playAreaSize), i % this.playAreaSize);
     },
     rightClickCell(x, y) {
+      if (this.isSolveAnimating) return;
       if(this.inputModeEnum == 'tools') return;
 
       if (this.playArea[x][y].value === null || this.playArea[x][y].value === 1) {
@@ -246,11 +257,13 @@ export default {
       this.verifySolvability();
     },
     middleClickCell(i) {
+      if (this.isSolveAnimating) return;
       if(this.inputModeEnum == 'tools') return;
 
       this.middleClickCell(Math.floor(i / this.playAreaSize), i % this.playAreaSize);
     },
     middleClickCell(x, y) {
+      if (this.isSolveAnimating) return;
       if(this.inputModeEnum == 'tools') return;
 
       this.playArea[x][y].value = null;
@@ -260,6 +273,7 @@ export default {
 
 
     fillAreaWithRandom() {
+      this.stopSolveAnimation();
       this.playArea = []
       for(let i = 0; i < this.playAreaSize; i++)
       {
@@ -285,8 +299,51 @@ export default {
       }
       this.verifySolvability();
     },
-    solve() {
-      this.playArea = JSON.parse(JSON.stringify(this.possibleSolution));
+    stopSolveAnimation() {
+      this.solveAnimationToken++;
+      this.isSolveAnimating = false;
+    },
+    waitForSolveTick() {
+      return new Promise((resolve) => {
+        window.setTimeout(() => {
+          window.requestAnimationFrame(resolve);
+        }, this.solveTickDelay);
+      });
+    },
+    async solve() {
+      if (this.isSolveAnimating) return;
+
+      this.verifySolvability();
+      if (this.valid !== "yes") {
+        return;
+      }
+
+      const solution = JSON.parse(JSON.stringify(this.possibleSolution));
+      const animationToken = ++this.solveAnimationToken;
+      this.isSolveAnimating = true;
+      this.valid = "solving...";
+      await this.$nextTick();
+
+      for (let i = 0; i < solution.length; i++) {
+        for (let j = 0; j < solution[i].length; j++) {
+          if (animationToken !== this.solveAnimationToken) {
+            return;
+          }
+
+          if (this.playArea[i][j].value === solution[i][j].value) {
+            continue;
+          }
+
+          this.playArea[i][j].value = solution[i][j].value;
+          await this.waitForSolveTick();
+        }
+      }
+
+      if (animationToken !== this.solveAnimationToken) {
+        return;
+      }
+
+      this.isSolveAnimating = false;
       this.verifySolvability();
     },
     verifySolvability() {
@@ -528,6 +585,17 @@ export default {
 </script>
 
 <style>
+
+  .solving #playAreaGrid {
+    pointer-events: none;
+    opacity: 0.92;
+  }
+
+  button:disabled,
+  input:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
 
   #customCursor {
     position: fixed;
